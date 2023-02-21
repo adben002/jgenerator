@@ -1,4 +1,0 @@
-rootProject.name = 'test-data-builder'
-include 'core'
-include 'entity'
-
