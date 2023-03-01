@@ -5,9 +5,11 @@ A set of libraries for creation and overriding of test data.
 Requires JDK 1.7 or higher.
 
 ### Latest release
+
 The most recent release is 2.0, released May 2, 2017.
 
 To add a dependency using Maven, use the following for core:
+
 ```xml
 <dependency>
   <groupId>com.github.adben002.testdatabuilder</groupId>
@@ -15,7 +17,9 @@ To add a dependency using Maven, use the following for core:
   <version>2.0</version>
 </dependency>
 ```
+
 Or for entity:
+
 ```xml
 <dependency>
   <groupId>com.github.adben002.testdatabuilder</groupId>
@@ -31,7 +35,9 @@ dependencies {
   compile 'com.github.adben002.testdatabuilder:core:2.0'
 }
 ```
+
 Or for entity:
+
 ```
 dependencies {
   compile 'com.github.adben002.testdatabuilder:entity:2.0'
@@ -82,6 +88,7 @@ Entity example:
 Using the entity structure from MySQL Sakila Database (https://dev.mysql.com/doc/sakila/en/sakila-structure.html)
 
 With Actor hibernate class and metamodel class:
+
 ```java
 @Entity
 @Table(name = "actor", indexes = @Index(columnList = "last_name", name = "idx_actor_last_name"))
@@ -109,6 +116,7 @@ public class Actor implements Serializable {
     }
 }
 ```
+
 ```java
 @StaticMetamodel(Actor.class)
 public class Actor_ {
@@ -148,7 +156,7 @@ public class EntityTest {
 
 In this case it generates:
 
-| actor_id | first_name | last_name | last_update         |
+| actor_id | first_name | last_name |     last_update     |
 |----------|------------|-----------|---------------------|
 | 1        | Adam       | A         | 2017-05-05 16:37:44 |
 | 2        | Adam       | B         | 2017-05-05 16:37:44 |
@@ -158,7 +166,7 @@ In this case it generates:
 
 And film:
 
-| film_id | description | last_update         | length | release_year | rental_duration | rental_rate | replacement_cost | title | language_id | original_language_id |
+| film_id | description |     last_update     | length | release_year | rental_duration | rental_rate | replacement_cost | title | language_id | original_language_id |
 |---------|-------------|---------------------|--------|--------------|-----------------|-------------|------------------|-------|-------------|----------------------|
 | 1       | B           | 2017-05-05 16:37:44 | 1      | 0            | 0               | 0           | 0                | A     | 1           | 1                    |
 
@@ -167,34 +175,42 @@ As well as other nested entities, including language.
 ### Development
 
 To deploy a build:
+
 ```sh
 ./gradlew clean build jar testClasses javadoc
 ```
 
 To make a new release:
- - Make sure that there is a namespace: https://issues.sonatype.org/browse/OSSRH-30923
- 1. Grab the name of the GPG_KEY generated from (need this for nexus publication):
- ```sh
+- Make sure that there is a namespace: https://issues.sonatype.org/browse/OSSRH-30923
+1. Grab the name of the GPG_KEY generated from (need this for nexus publication):
+
+```sh
 gpg --batch --gen-key << EOF
-  Key-Type: 1
-  Key-Length: 2048
-  Subkey-Type: 1
-  Subkey-Length: 2048
-  Name-Real: Adam Bennett
-  Name-Email: adben002@gmail.com
-  Passphrase: GPG_PASSWORD
-  Expire-Date: 0
+ Key-Type: 1
+ Key-Length: 2048
+ Subkey-Type: 1
+ Subkey-Length: 2048
+ Name-Real: Adam Bennett
+ Name-Email: adben002@gmail.com
+ Passphrase: GPG_PASSWORD
+ Expire-Date: 0
 EOF
 ```
- 2. Upload the key:
- ```sh
-  gpg --keyserver hkp://pool.sks-keyservers.net --send-keys GPG_KEY
+
+2. Upload the key:
+
+```sh
+gpg --keyserver hkp://pool.sks-keyservers.net --send-keys GPG_KEY
 ```
- 3. Update version and README for the new version.
- 4. Run
+
+3. Update version and README for the new version.
+4. Run
+
 ```sh
 ./gradlew clean build jar testClasses javadoc publish -P snapshotRepoPass='https://issues.sonatype.org_PASSWORD' -P signing.keyId=GPG_KEY -P signing.password=GPG_PASSWORD -P signing.secretKeyRingFile=PATH_TO_GPG/secring.gpg
 ```
- 5. Go to https://oss.sonatype.org/#stagingRepositories
- 6. When the package appears, click close.
- 7. Wait for the close to complete, then click release.
+
+5. Go to https://oss.sonatype.org/#stagingRepositories
+6. When the package appears, click close.
+7. Wait for the close to complete, then click release.
+
